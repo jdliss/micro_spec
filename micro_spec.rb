@@ -54,6 +54,7 @@ module MicroSpec
     printer.join
     $spec_name = nil
     $spec_queue = nil
+    $spec_finished = nil
   end
 
   class Assertion

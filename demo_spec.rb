@@ -3,36 +3,44 @@ require 'micro_spec'
 require 'demo'
 
 MicroSpec.describe Demo do
-  it 'takes a name' do
-    demo = described_class.new('bob')
-    expect(demo.name).to eq('bob')
+  it 'can use described_class' do
+    demo = described_class.new('Bob')
+    expect(demo.name).to eq('Bob')
   end
 
-  it 'exposes name' do
-    demo = described_class.new('bob')
-    expect(demo.name).to eq('bob')
-    demo.name = 'new name'
-    expect(demo.name).to eq('bob')
+  it 'has multiple expect statements' do
+    demo = described_class.new('Bob')
+    expect(demo.name).to eq('Bob')
+
+    demo.name = 'Bub'
+    expect(demo.name).to eq('Bub')
   end
 
-  it 'exposes name' do
-    demo = described_class.new('bob')
-    expect(demo.name).to eq('bob')
-    demo.name = 'new name'
-    expect(demo.name).to eq('bob')
+  it 'fails' do
+    demo = described_class.new('Bob')
+    expect(demo.name).to eq('Bob')
+    demo.name = 'Bub'
+    expect(demo.name).to eq('Bob')
   end
 
-  it 'exposes name' do
-    demo = described_class.new('bob')
-    expect(demo.name).to eq('bob')
-    demo.name = 'new name'
-    expect(demo.name).to eq('bob')
+  it 'fails' do
+    demo = described_class.new('Bob')
+    expect(demo.name).to eq('Bob')
+    demo.name = 'Burt'
+    expect(demo.name).to eq('Bob')
   end
 
-  it 'exposes name' do
-    demo = described_class.new('bob')
-    expect(demo.name).to eq('bob')
-    demo.name = 'new name'
-    expect(demo.name).to eq('bob')
+  it 'fails' do
+    demo = described_class.new('Bob')
+    expect(demo.name).to eq('Bob')
+    demo.name = 'Brett'
+    expect(demo.name).to eq('Bob')
+  end
+
+  it 'fails' do
+    demo = described_class.new('Bob')
+    expect(demo.name).to eq('Bob')
+    demo.name = 'Ben'
+    expect(demo.name).to eq('Bob')
   end
 end

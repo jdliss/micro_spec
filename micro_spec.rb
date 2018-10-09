@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'colorize'
 
 module MicroSpec
   TestPass = Class.new(StandardError)
@@ -18,15 +19,15 @@ module MicroSpec
           $spec_name = spec_name
           begin
             block.call
-            puts "Test '\#{$spec_name}' passed."
+            puts "  It '\#{$spec_name}' passed.".colorize(:green)
           rescue Assertion::Failure => e
             failure_info = JSON.parse(e.message)
-            $spec_queue << Test.new(
+            $spec_queue << {
               name: $spec_name,
               status: 'failed',
               expect: failure_info['expect'],
               got: failure_info['got']
-            )
+            }
           end
         end
 
@@ -41,28 +42,18 @@ module MicroSpec
       loop do
         break if $spec_finished && $spec_queue.empty?
         test = $spec_queue.pop
-        puts "Test '#{test.name}' failed."
-        puts "\tExpected: #{test.expect}, Got: #{test.got}"
+        puts "  It '#{test[:name]}' failed:".colorize(:red)
+        puts "    Expected: #{test[:expect].colorize(:yellow)}, Got: #{test[:got].colorize(:yellow)}"
       end
     end
 
+    puts 'Running tests:'
     block.call
 
     $spec_finished = true
     printer.join
     $spec_name = nil
     $spec_queue = nil
-  end
-
-  class Test
-    attr_reader :name, :status, :expect, :got
-
-    def initialize(name:, status:, expect:, got:)
-      @name   = name
-      @status = status
-      @expect = expect
-      @got    = got
-    end
   end
 
   class Assertion

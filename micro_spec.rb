@@ -21,13 +21,10 @@ module MicroSpec
             block.call
             puts "  It '\#{$spec_name}' passed.".colorize(:green)
           rescue Assertion::Failure => e
-            failure_info = JSON.parse(e.message)
-            $spec_queue << {
-              name: $spec_name,
-              status: 'failed',
-              expect: failure_info['expect'],
-              got: failure_info['got']
-            }
+            failure = JSON.parse(e.message)
+            puts "  It '\#{$spec_name}' failed:".colorize(:red)
+            print "    Expected: \#{failure['expect'].colorize(:yellow)}, "
+            puts "Got: \#{failure['got'].colorize(:yellow)}"
           end
         end
 
@@ -38,20 +35,10 @@ module MicroSpec
       BODY
     )
 
-    printer = Thread.new do
-      loop do
-        break if $spec_finished && $spec_queue.empty?
-        test = $spec_queue.pop
-        puts "  It '#{test[:name]}' failed:".colorize(:red)
-        puts "    Expected: #{test[:expect].colorize(:yellow)}, Got: #{test[:got].colorize(:yellow)}"
-      end
-    end
-
     puts 'Running tests:'
     block.call
 
     $spec_finished = true
-    printer.join
     $spec_name = nil
     $spec_queue = nil
     $spec_finished = nil

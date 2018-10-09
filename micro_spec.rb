@@ -7,8 +7,6 @@ module MicroSpec
   TestPass = Class.new(StandardError)
 
   def self.describe(constant, &block)
-    $spec_queue = Queue.new
-
     Object.class_eval(
       <<~BODY
         def described_class
@@ -38,10 +36,7 @@ module MicroSpec
     puts 'Running tests:'
     block.call
 
-    $spec_finished = true
     $spec_name = nil
-    $spec_queue = nil
-    $spec_finished = nil
   end
 
   class Assertion

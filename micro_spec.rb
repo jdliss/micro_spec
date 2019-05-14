@@ -14,15 +14,13 @@ module MicroSpec
         end
 
         def it(spec_name, &block)
-          begin
-            block.call
-            puts "  It '\#{spec_name}' passed.".colorize(:green)
-          rescue Assertion::Failure => e
-            failure = JSON.parse(e.message)
-            puts "  It '\#{spec_name}' failed:".colorize(:red)
-            print "    Expected: \#{failure['expect'].colorize(:yellow)}, "
-            puts "Got: \#{failure['got'].colorize(:yellow)}"
-          end
+          block.call
+          puts "  It '\#{spec_name}' passed.".colorize(:green)
+        rescue Assertion::Failure => e
+          failure = JSON.parse(e.message)
+          puts "  It '\#{spec_name}' failed:".colorize(:red)
+          print "    Expected: \#{failure['expect'].colorize(:yellow)}, "
+          puts "Got: \#{failure['got'].colorize(:yellow)}"
         end
 
         def expect(value)

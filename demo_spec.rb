@@ -3,7 +3,7 @@
 $LOAD_PATH.unshift('.')
 require 'micro_spec'
 
-class Demo
+class DemoClass
   attr_accessor :name
 
   def initialize(name)
@@ -11,7 +11,7 @@ class Demo
   end
 end
 
-MicroSpec.describe Demo do
+MicroSpec.describe DemoClass do
   it 'can use described_class' do
     demo = described_class.new('Bob')
     expect(demo.name).to eq('Bob')

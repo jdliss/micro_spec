@@ -4,8 +4,6 @@ require 'json'
 require 'colorize'
 
 module MicroSpec
-  TestPass = Class.new(StandardError)
-
   def self.describe(constant, &block)
     Object.class_eval(
       <<~BODY
